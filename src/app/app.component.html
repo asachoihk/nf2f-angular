@@ -1,0 +1,43 @@
+<h1>{{isCustomer?'Customer View': 'Agent View'}}</h1>
+<button (click)="create()" *ngIf="!isCustomer">Creat Session</button>
+{{fileList | json}}
+
+<div *ngIf="!isCustomer">
+  Share this to your customer {{url}}&customer=1
+  <h2>control customer section</h2>
+  <input
+    type="radio"
+    id="doc"
+    name="section"
+    value="doc"
+    (click)="updateSection()"
+  />
+  <label for="doc">Document</label><br />
+  <input
+    type="radio"
+    id="sign"
+    name="section"
+    value="sign"
+    (click)="updateSection()"
+  />
+  <label for="sign">Signature</label><br />
+</div>
+
+{{turnOnSection}}
+<div *ngIf="isCustomer && turnOnSection == 'doc'">
+  <h2>File upload</h2>
+  <input type="file" id="fileupload" />
+  <button (click)="uploadDoc()">Upload Doc</button>
+</div>
+<div *ngIf="turnOnSection =='sign'">
+  <h2>Signatute</h2>
+  <div class="wrapper">
+    <signature-pad
+      [options]="signaturePadOptions"
+      (onBeginEvent)="drawStart()"
+      (onEndEvent)="drawComplete()"
+    ></signature-pad>
+    <div></div>
+  </div>
+  <button (click)="clear()">Clear</button>
+</div>
